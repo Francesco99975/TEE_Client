@@ -1,0 +1,39 @@
+<main class="container" style="height: 100vh;">
+    <h1 class="title" style="margin-bottom: 0.5rem;">TEE</h1>
+    <h3 class="subtitle" style="margin-bottom: 2rem;">(Temporal Encoded Encryption)</h3>
+
+    <div class="container">
+        <div style="margin-bottom: 2rem">
+            <span class="ctn-title">Time left until encode reset: </span>
+            <countdown class="ctn" [config]="config"></countdown>
+        </div>
+
+        <span class="p-float-label p-input-icon-right" style="margin-bottom: 2rem;">
+            <i *ngIf="isLoading" class="pi pi-spin pi-spinner"></i>
+            <input id="text" class="p-inputtext-lg" type="text" pInputText  [(ngModel)]="message"> 
+            <label for="float-input">Text to {{ isEncrypt ? "Encrypt" : "Decrypt" }}</label>
+        </span>   
+        
+        <i class="pi pi-arrow-down" style="font-size: 5rem;"></i>
+
+        <span class="p-float-label p-input-icon-right" style="margin-bottom: 2rem; margin-top: 2rem">
+            <i style="cursor: pointer;" class="pi pi-copy" [copy-clipboard]="output"></i>
+            <input [disabled]="output === ''" id="output" class="p-inputtext-lg" type="text" pInputText  [(ngModel)]="output"> 
+            <label for="float-input">{{ isEncrypt ? "Encrypted" : "Decrypted" }} text will be displayed here</label>
+        </span>  
+
+        <button pButton pRipple class="p-button-rounded" style="margin-bottom: 2rem;" 
+            [label]="isEncrypt ? 'Encrypt' : 'Decrypt'" 
+            icon="pi pi-lock" 
+            [disabled]="message === ''"
+            [loading]="isLoading" 
+            (click)="onSubmit()">
+        </button>
+
+        <button pButton pRipple class="p-button-outlined" 
+            [label]="isEncrypt ? 'Switch to Decryption' : 'Switch to Encryption'" 
+            [disabled]="isLoading"
+            (click)="onReset()">
+        </button>
+    </div> 
+</main>
