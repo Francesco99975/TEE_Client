@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CountdownConfig } from 'ngx-countdown';
-import { addDays } from "date-fns"
+import { addDays, addHours } from "date-fns"
 
 const CountdownTimeUnits: Array<[string, number]> = [
   ['Y', 1000 * 60 * 60 * 24 * 365], // years
@@ -29,12 +29,14 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    const now = new Date();
-    now.setHours(23);
-    now.setMinutes(59);
-    now.setSeconds(59);    
+    const now = new Date();  
+    let stp = addHours(now, 7 - now.getDay() == 7 ? 24 - now.getHours() : (24 - now.getHours() + ((7 - now.getDay()) * 24)));
+    stp.setMinutes(0);
+    stp.setSeconds(0);  
+    console.log(now);
+    console.log(stp)
     this.config = {
-      stopTime: addDays(now, 7 - now.getDay()).getTime(),
+      stopTime: stp.getTime(),
       formatDate: ({ date, formatStr }) => {
         let duration = Number(date || 0);
   
