@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CountdownConfig } from 'ngx-countdown';
-import { addDays, addHours } from "date-fns"
+import { addHours } from "date-fns"
+import { ToastrService } from 'ngx-toastr';
 
 const CountdownTimeUnits: Array<[string, number]> = [
   ['Y', 1000 * 60 * 60 * 24 * 365], // years
@@ -26,15 +27,13 @@ export class HomeComponent implements OnInit {
 
   config!: CountdownConfig;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const now = new Date();  
     let stp = addHours(now, 7 - now.getDay() == 7 ? 24 - now.getHours() : (24 - now.getHours() + ((7 - now.getDay()) * 24)));
     stp.setMinutes(0);
     stp.setSeconds(0);  
-    console.log(now);
-    console.log(stp)
     this.config = {
       stopTime: stp.getTime(),
       formatDate: ({ date, formatStr }) => {
@@ -69,6 +68,9 @@ export class HomeComponent implements OnInit {
       this.http.post(`${URI}`, {data: this.message}).subscribe((res:any) => {
         this.output = res.data;
         this.isLoading = false;
+      }, (err: any) => {
+        this.isLoading = false;
+        this.toastr.error(`Could not ${this.isEncrypt ? 'encrypt' : 'decrypt'} this message.`, 'Error', { timeOut: 3000 });
       });
     }
   }
