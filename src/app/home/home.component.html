@@ -12,7 +12,18 @@
             <i *ngIf="isLoading" class="pi pi-spin pi-spinner"></i>
             <input id="text" class="p-inputtext-lg" type="text" pInputText  [(ngModel)]="message"> 
             <label for="float-input">Text to {{ isEncrypt ? "Encrypt" : "Decrypt" }}</label>
-        </span>   
+        </span> 
+
+        <div class="left-container" style="margin-bottom: 2rem; margin-top: -1rem; align-self: flex-start;">
+            <label for="k" style="margin-bottom: 0.5rem;">{{ isEncrypt ? "Protect with" : "Use" }} Passkey</label>
+            <p-inputSwitch id="k" name="k" [(ngModel)]="isKey"></p-inputSwitch>
+        </div>
+
+        <span *ngIf="isKey" class="p-float-label p-input-icon-right" style="margin-bottom: 2rem;">
+            <!-- <i *ngIf="isLoading" class="pi pi-spin pi-spinner"></i> -->
+            <input id="passkey" class="p-inputtext-lg" type="password" pInputText  [(ngModel)]="passkey"> 
+            <label for="float-input">Passkey</label>
+        </span>
         
         <i class="pi pi-arrow-down" style="font-size: 5rem;"></i>
 

@@ -6,6 +6,7 @@ import { HttpClientModule } from "@angular/common/http";
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button'
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 import { CountdownModule } from 'ngx-countdown';
 import { ToastrModule } from 'ngx-toastr';
@@ -31,6 +32,7 @@ import { environment } from '../environments/environment';
     ButtonModule,
     HttpClientModule,
     InputTextModule,
+    InputSwitchModule,
     CountdownModule,
     ToastrModule.forRoot({positionClass: "toast-top-right"}),
     AppRoutingModule,

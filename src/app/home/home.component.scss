@@ -5,6 +5,17 @@
   align-items: center;
 }
 
+.left-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  label {
+    font-weight: bold;
+  }
+}
+
 .title {
   letter-spacing: 0.6rem;
 }

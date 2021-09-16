@@ -22,8 +22,10 @@ const CountdownTimeUnits: Array<[string, number]> = [
 export class HomeComponent implements OnInit {
   isEncrypt: boolean = true;
   message: string = '';
+  passkey: string = '';
   output: string = '';
   isLoading: boolean = false;
+  isKey: boolean = false;
 
   config!: CountdownConfig;
 
@@ -57,6 +59,7 @@ export class HomeComponent implements OnInit {
     this.isEncrypt = !this.isEncrypt;
     this.message = '';
     this.output = '';
+    this.passkey = '';
     console.log("See this error about the trim function? Dont't worry about it.");
   }
 
@@ -65,12 +68,16 @@ export class HomeComponent implements OnInit {
       const URI = this.isEncrypt ? "/tee/encrypt" : '/tee/decrypt';
       this.isLoading = true;
 
-      this.http.post(`${URI}`, {data: this.message}).subscribe((res:any) => {
-        this.output = res.data;
+      this.http.post(`${URI}`, {data: {message: this.message.trim()}, key: this.passkey.replace(' ', '')}).subscribe((res:any) => {
+        this.output = res.message;
         this.isLoading = false;
       }, (err: any) => {
         this.isLoading = false;
-        this.toastr.error(`Could not ${this.isEncrypt ? 'encrypt' : 'decrypt'} this message.`, 'Error', { timeOut: 3000 });
+        if(err.status == 401) {
+          this.toastr.error(err.error.message, 'Passkey Error', { timeOut: 3000 });
+        } else {
+          this.toastr.error(`Could not ${this.isEncrypt ? 'encrypt' : 'decrypt'} this message.`, 'Error', { timeOut: 3000 });
+        }
       });
     }
   }
